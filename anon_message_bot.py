@@ -7,7 +7,8 @@ import logging
 
 SPAM_LIMIT =15
 SPAM_INTERVAL = 10  # секунд
-BLOCK_DURATION = 18000  # секунд (1 час)
+BLOCK_DURATION = 18000  # секунд
+last_anon_id = 0  # Глобальная переменная
 
 # Для хранения времени сообщений: {chat_id: [timestamps]}
 message_timestamps = {}
@@ -59,13 +60,14 @@ pending_albums = {}  # {chat_id: {"media": [...], "timeout": int, "caption": str
 ALBUM_TIMEOUT = 10  # Таймаут ожидания, чтобы собрать альбом, в секундах
 
 def generate_anonymous_id() -> int:
-    """Генерация уникального анонимного ID."""
-    return len(user_map) + 1
+    global last_anon_id
+    last_anon_id += 1
+    return last_anon_id
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "Приветик. Добро пожаловать в моё место. Хрю~🐷\n\n"
-        "https://t.me/+IgBDGmBXimU3NzUy - ссылка на исходный код.\n"
+        "https://github.com/UrPerv/Anon-message.git - ссылка на исходный код.\n"
         "https://t.me/Anonimnoe_Soobchenie_bot - анонимная обратная связь с разработчиком и админом."
     )
 
